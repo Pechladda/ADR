@@ -26,9 +26,9 @@ Pros – What becomes easier?
 - Better balance between security and user experience through contextual step-up authentication.
 - Reduced risk of replay attacks and long-term abuse of stolen tokens.
 Cons – What becomes more difficult?
-- Increased user friction due to MFA or step-up challenges under strict policies.
-- Requires mature risk engines, device binding, and session management.
-- Integration across SaaS, APIs, and mobile applications becomes more complex.
+- Increased user friction due to MFA or step-up challenges when policies are strict.
+- Requires mature risk engines, device binding, and session management capabilities.
+- Integration across multiple systems (SaaS, APIs, mobile applications) becomes more complex.
 
 ## Sample code
 ```python
