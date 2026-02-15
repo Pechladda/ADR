@@ -25,6 +25,7 @@ Pros – What becomes easier?
 - More granular and secure access control, especially for sensitive endpoints.
 - Better balance between security and user experience through contextual step-up authentication.
 - Reduced risk of replay attacks and long-term abuse of stolen tokens.
+
 Cons – What becomes more difficult?
 - Increased user friction due to MFA or step-up challenges when policies are strict.
 - Requires mature risk engines, device binding, and session management capabilities.
