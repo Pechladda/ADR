@@ -30,4 +30,51 @@ Policy design becomes more complex and must be rolled out gradually to avoid deg
 Accurate identity and asset inventory management becomes critical.
 
 ## Sample code
-Give some sample code related to this decision.
+import os
+import jwt
+from fastapi import FastAPI, Depends, HTTPException, Request
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from pydantic_settings import BaseSettings
+
+class ZTASettings(BaseSettings):
+    jwt_public_key: str = os.getenv("JWT_PUBLIC_KEY", "your-public-key")
+    jwt_algorithm: str = os.getenv("JWT_ALGORITHM", "RS256")
+
+settings = ZTASettings()
+app = FastAPI()
+security = HTTPBearer()
+
+def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    try:
+        return jwt.decode(
+            credentials.credentials, 
+            settings.jwt_public_key, 
+            algorithms=[settings.jwt_algorithm],
+            options={"verify_aud": False}
+        )
+    except Exception:
+        raise HTTPException(status_code=401, detail="invalid_token")
+
+class ZeroTrustPolicy:
+    def __init__(self, required_scope: str):
+        self.required_scope = required_scope
+
+    def __call__(self, request: Request, claims: dict = Depends(verify_token)):
+
+        if self.required_scope not in claims.get("scp", []):
+            raise HTTPException(status_code=403, detail="insufficient_scope")
+
+        device_posture = request.headers.get("x-device-posture", "")
+        if "managed:true" not in device_posture or "jb:false" not in device_posture:
+            raise HTTPException(status_code=403, detail="device_not_trusted")
+
+        risk_score = int(request.headers.get("x-risk-score", 0))
+        if risk_score >= 70:
+            raise HTTPException(status_code=403, detail="high_risk_blocked")
+
+        return claims
+
+@app.get("/admin/reports")
+def read_reports(claims: dict = Depends(ZeroTrustPolicy(required_scope="reports:read"))):
+    return {"status": "ok", "sub": claims.get("sub")}
+
