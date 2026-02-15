@@ -1,5 +1,5 @@
 # Title
-Strict Identity Verification
+Strict Identity Verification for Every Access
 
 ## Context
 Access control is often overly dependent on existing sessions or network location, for example:
@@ -8,8 +8,9 @@ Access control is often overly dependent on existing sessions or network locatio
 - Excessive privileges that are not re-evaluated when risk conditions change
 
 
+
 ## Decision
-Enforce Strict Identity Verification, meaning that each request to a protected resource must be strongly validated:
+Enforce strict identity verification for every access, meaning that each request to a protected resource must be strongly validated:
 - Use short-lived access tokens with secure refresh mechanisms
 - Apply step-up authentication (e.g., MFA or biometrics) for high-risk actions
 - Require re-authentication when risk increases (new device, unusual location, administrative actions)
@@ -18,7 +19,7 @@ Enforce Strict Identity Verification, meaning that each request to a protected r
 ## Rationale
 - Access should not be treated as permanently granted based on a single login event.
 - Reduces the impact of token or session hijacking.
-- Increases confidence that each request truly originates from the same user, the same device, and an acceptable context.
+- Increases confidence that each request truly comes from the same user, the same device, and an acceptable context.
 
 ## Consequences
 Pros – What becomes easier?
@@ -27,9 +28,9 @@ Pros – What becomes easier?
 - Reduced risk of replay attacks and long-term abuse of stolen tokens.
 
 Cons – What becomes more difficult?
-- Increased user friction due to MFA or step-up challenges when policies are strict.
-- Requires mature risk engines, device binding, and session management capabilities.
-- Integration across multiple systems (SaaS, APIs, mobile applications) becomes more complex.
+- Increased user friction due to MFA or step-up challenges under strict policies.
+- Requires mature risk engines, device binding, and session management.
+- Integration across SaaS, APIs, and mobile applications becomes more complex.
 
 ## Sample code
 ```python
