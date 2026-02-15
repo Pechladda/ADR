@@ -30,6 +30,7 @@ Policy design becomes more complex and must be rolled out gradually to avoid deg
 Accurate identity and asset inventory management becomes critical.
 
 ## Sample code
+```python
 import os
 import jwt
 from fastapi import FastAPI, Depends, HTTPException, Request

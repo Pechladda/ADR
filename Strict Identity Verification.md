@@ -31,6 +31,7 @@ Requires mature risk engines, device binding, and session management.
 Integration across SaaS, APIs, and mobile applications becomes more complex.
 
 ## Sample code
+```python
 import os
 import time
 import jwt
