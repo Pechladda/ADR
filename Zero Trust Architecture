@@ -1,0 +1,33 @@
+# Title
+Zero Trust Architecture
+
+## Context
+Traditional security models often assume that anything inside the internal network is trusted. If an attacker breaches the perimeter once, they can easily perform lateral movement to access other resources.
+With the rise of cloud services, remote work, and SaaS, the network boundary is no longer clearly defined as in the past.
+
+
+## Decision
+Adopt a Zero Trust Architecture (ZTA) with the following principles:
+Never trust, always verify
+Validate every request based on identity, device, context, and risk
+Enforce least privilege, micro-segmentation, and continuous evaluation
+
+
+## Rationale
+Limits the blast radius when a single account is compromised, since access is not implicitly trusted across the entire system.
+Fits well with hybrid environments (on-premises + cloud) and distributed workforces.
+Improves visibility, control, and auditing of access to resources.
+
+
+## Consequences
+Pros – What becomes easier?
+Better containment of attacks and reduced lateral movement.
+More fine-grained access control (per application/per resource) with clearer audit trails.
+Stronger support for remote work, BYOD, and cloud-native architectures.
+Cons – What becomes more difficult?
+Requires investment in IAM, device posture management, policy engines, and logging/monitoring.
+Policy design becomes more complex and must be rolled out gradually to avoid degrading user experience.
+Accurate identity and asset inventory management becomes critical.
+
+## Sample code
+Give some sample code related to this decision.
