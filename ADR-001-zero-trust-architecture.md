@@ -83,3 +83,4 @@ class ZeroTrustPolicy:
 @app.get("/admin/reports")
 def read_reports(claims: dict = Depends(ZeroTrustPolicy(required_scope="reports:read"))):
     return {"status": "ok", "sub": claims.get("sub")}
+```

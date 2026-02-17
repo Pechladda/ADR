@@ -79,4 +79,4 @@ def require_fresh_mfa(claims: dict = Depends(verify_strict_token)):
 @app.post("/admin/rotate-api-key")
 def rotate_api_key(claims: dict = Depends(require_fresh_mfa)):
     return {"status": "ok", "message": "Strict Identity verified, key rotated"}
-
+```
