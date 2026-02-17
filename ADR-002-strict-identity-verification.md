@@ -30,7 +30,6 @@ Cons – What becomes more difficult?
 - Integration across SaaS, APIs, and mobile applications becomes more complex.
 
 ## Sample code
-````md
 ```python
 import os
 import time
