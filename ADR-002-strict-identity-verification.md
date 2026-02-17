@@ -1,12 +1,9 @@
 # Title
-Strict Identity Verification for Every Access
+Strict Identity Verification
 
 ## Context
-Access control is often overly dependent on existing sessions or network location, for example:
-- Long-lived tokens that are not strongly bound to devices or context
-- Requests from new IP addresses, countries, or devices still being accepted
-- Excessive privileges that are not re-evaluated when risk conditions change
-
+Users access the mobile banking system using different devices and networks.
+Relying only on long-lived sessions or tokens may expose the system to risks such as session hijacking and fraudulent transactions.
 
 
 ## Decision

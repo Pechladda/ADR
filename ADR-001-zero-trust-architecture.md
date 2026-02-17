@@ -2,8 +2,8 @@
 Zero Trust Architecture
 
 ## Context
-Traditional security models often assume that anything inside the internal network is trusted. If an attacker breaches the perimeter once, they can easily perform lateral movement to access other resources.
-With the rise of cloud services, remote work, and SaaS, the network boundary is no longer clearly defined as in the past.
+The mobile banking system is accessed by customers from various devices and networks.
+Since the system handles sensitive financial data and transactions, there is a high risk of unauthorized access, credential theft, and fraud, especially in cloud-based and remote access environments.
 
 
 ## Decision
@@ -49,8 +49,8 @@ security = HTTPBearer()
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:
         return jwt.decode(
-            credentials.credentials, 
-            settings.jwt_public_key, 
+            credentials.credentials,
+            settings.jwt_public_key,
             algorithms=[settings.jwt_algorithm],
             options={"verify_aud": False}
         )
@@ -62,7 +62,6 @@ class ZeroTrustPolicy:
         self.required_scope = required_scope
 
     def __call__(self, request: Request, claims: dict = Depends(verify_token)):
-
         if self.required_scope not in claims.get("scp", []):
             raise HTTPException(status_code=403, detail="insufficient_scope")
 
@@ -70,7 +69,12 @@ class ZeroTrustPolicy:
         if "managed:true" not in device_posture or "jb:false" not in device_posture:
             raise HTTPException(status_code=403, detail="device_not_trusted")
 
-        risk_score = int(request.headers.get("x-risk-score", 0))
+        raw_risk = request.headers.get("x-risk-score", "0")
+        try:
+            risk_score = int(raw_risk)
+        except ValueError:
+            raise HTTPException(status_code=400, detail="invalid_risk_score")
+
         if risk_score >= 70:
             raise HTTPException(status_code=403, detail="high_risk_blocked")
 
@@ -79,4 +83,3 @@ class ZeroTrustPolicy:
 @app.get("/admin/reports")
 def read_reports(claims: dict = Depends(ZeroTrustPolicy(required_scope="reports:read"))):
     return {"status": "ok", "sub": claims.get("sub")}
-
